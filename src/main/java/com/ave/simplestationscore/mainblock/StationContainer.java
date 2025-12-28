@@ -47,7 +47,10 @@ public abstract class StationContainer extends BlockEntity implements MenuProvid
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
+        var preSize = inventory.getSlots();
         inventory.deserializeNBT(registries, tag.getCompound("inventory"));
+        if (inventory.getSlots() != preSize)
+            inventory.setSize(preSize);
     }
 
     @Override
