@@ -1,23 +1,21 @@
 package com.ave.simplestationscore.handlers;
 
-import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
-public class WaterTank extends FluidTank {
-    public static WaterTank create(int value, int max) {
-        WaterTank inst = new WaterTank(max);
-        inst.fill(value);
-        return inst;
-    }
+public class BaseTank extends FluidTank {
+    public final Fluid type;
 
-    public WaterTank(int capacity) {
+    public BaseTank(Fluid type, int value, int capacity) {
         super(capacity);
+        this.type = type;
+        fill(value);
     }
 
     public void fill(int value) {
-        super.fill(new FluidStack(Fluids.WATER, value), FluidAction.EXECUTE);
+        super.fill(new FluidStack(type, value), FluidAction.EXECUTE);
     }
 
     public void drain(IntValue value) {

@@ -1,18 +1,20 @@
 package com.ave.simplestationscore.resources;
 
-import com.ave.simplestationscore.handlers.WaterTank;
+import com.ave.simplestationscore.handlers.BaseTank;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
-public class WaterResource implements StationResource {
-    public WaterTank storage;
+public class FluidResource implements StationResource {
+    public BaseTank storage;
     private int usage;
 
-    public WaterResource(int max, int usage) {
+    public FluidResource(Fluid fluid, int max, int usage) {
         this.usage = usage;
-        this.storage = WaterTank.create(0, max);
+        this.storage = new BaseTank(fluid, 0, max);
     }
 
     public boolean useEveryTick() {
@@ -28,7 +30,11 @@ public class WaterResource implements StationResource {
     }
 
     public int getIncrement(Item item) {
-        return item.equals(Items.WATER_BUCKET) ? 1000 : 0;
+        if (storage.type.equals(Fluids.WATER) && item.equals(Items.WATER_BUCKET))
+            return 1000;
+        if (storage.type.equals(Fluids.LAVA) && item.equals(Items.LAVA_BUCKET))
+            return 1000;
+        return 0;
     }
 
     public void add(int amount) {
