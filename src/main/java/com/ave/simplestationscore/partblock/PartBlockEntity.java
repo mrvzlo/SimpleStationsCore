@@ -35,7 +35,7 @@ public class PartBlockEntity extends BlockEntity {
     }
 
     public int getStationType() {
-        return (this.getController(this) == null) ? 0 : this.getController(this).type;
+        return (getController() == null) ? 0 : getController().type;
     }
 
     public BlockPos getControllerPos() {
@@ -44,34 +44,34 @@ public class PartBlockEntity extends BlockEntity {
 
     public static void registerCaps(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RegistrationManager.PART.getEntity(),
-                (be, direction) -> be.getItemHandler(direction, be));
+                (be, direction) -> getItemHandler(direction, be));
     }
 
-    public IItemHandler getItemHandler(Direction side, PartBlockEntity be) {
-        var controller = this.getController(be);
+    public static IItemHandler getItemHandler(Direction side, PartBlockEntity be) {
+        var controller = be.getController();
         if (controller == null)
             return null;
         return controller.getItemHandler(side);
     }
 
-    public IEnergyStorage getEnergyStorage(PartBlockEntity be) {
-        var controller = this.getController(be);
+    public static IEnergyStorage getEnergyStorage(PartBlockEntity be) {
+        var controller = be.getController();
         if (controller == null)
             return null;
         return controller.getEnergyStorage();
     }
 
-    public FluidTank getWaterStorage(PartBlockEntity be) {
-        var controller = this.getController(be);
+    public static FluidTank getWaterStorage(PartBlockEntity be) {
+        var controller = be.getController();
         if (controller == null)
             return null;
         return controller.getWaterStorage();
     }
 
-    private BaseStationBlockEntity getController(PartBlockEntity be) {
-        if (be.controllerPos == null)
+    public BaseStationBlockEntity getController() {
+        if (controllerPos == null)
             return null;
-        return ((BaseStationBlockEntity) be.getLevel().getBlockEntity(be.controllerPos));
+        return ((BaseStationBlockEntity) getLevel().getBlockEntity(controllerPos));
     }
 
     public boolean isEdge() {
