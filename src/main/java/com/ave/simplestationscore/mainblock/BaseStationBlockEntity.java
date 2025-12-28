@@ -138,7 +138,9 @@ public abstract class BaseStationBlockEntity extends StationContainer {
         return false;
     }
 
-    protected abstract void addParticle();
+    protected void addParticle() {
+        return;
+    }
 
     public abstract int getMaxProgress();
 
