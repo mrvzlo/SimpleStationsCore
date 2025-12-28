@@ -12,9 +12,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class Station<BE extends BlockEntity, B extends Block> {
-    public final DeferredHolder<BlockEntityType<?>, BlockEntityType<BE>> entity;
-    public final DeferredBlock<Block> block;
-    public final DeferredItem<BlockItem> item;
+    private final DeferredHolder<BlockEntityType<?>, BlockEntityType<BE>> entity;
+    private final DeferredBlock<Block> block;
+    private final DeferredItem<BlockItem> item;
 
     public Station(String name,
             Function<BlockBehaviour.Properties, B> blockFactory,
@@ -26,5 +26,17 @@ public class Station<BE extends BlockEntity, B extends Block> {
                 .of(entityFactory, this.block.get()).build(null));
 
         this.item = createItem ? manager.ITEMS.registerSimpleBlockItem(name, this.block) : null;
+    }
+
+    public BlockEntityType<BE> getEntity() {
+        return entity.get();
+    }
+
+    public Block getBlock() {
+        return block.get();
+    }
+
+    public BlockItem getItem() {
+        return item.get();
     }
 }

@@ -93,7 +93,7 @@ public abstract class BaseStationBlock extends Block implements EntityBlock {
                 if (p.equals(pos))
                     continue;
 
-                var block = RegistrationManager.PART.block.get().defaultBlockState();
+                var block = RegistrationManager.PART.getBlock().defaultBlockState();
                 level.setBlock(p, block, 3);
 
                 var be = (PartBlockEntity) level.getBlockEntity(p);

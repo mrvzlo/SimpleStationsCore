@@ -23,7 +23,7 @@ public class PartBlockEntity extends BlockEntity {
     private BlockPos controllerPos;
 
     public PartBlockEntity(BlockPos pos, BlockState state) {
-        super(RegistrationManager.PART.entity.get(), pos, state);
+        super(RegistrationManager.PART.getEntity(), pos, state);
     }
 
     public void setControllerPos(BlockPos pos) {
@@ -43,7 +43,7 @@ public class PartBlockEntity extends BlockEntity {
     }
 
     public static void registerCaps(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RegistrationManager.PART.entity.get(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RegistrationManager.PART.getEntity(),
                 (be, direction) -> be.getItemHandler(direction, be));
     }
 
