@@ -7,12 +7,12 @@ import net.neoforged.neoforge.energy.EnergyStorage;
 
 public class EnergyResource implements StationResource {
     public EnergyStorage storage;
-    private int usage;
-    private final int coalIncrement;
+    public int usage;
+    private final int baseInc;
 
-    public EnergyResource(int max, int usage, int coalInc) {
+    public EnergyResource(int max, int usage, int inc) {
         this.usage = usage;
-        coalIncrement = coalInc;
+        baseInc = inc;
         this.storage = new EnergyStorage(max);
     }
 
@@ -50,8 +50,8 @@ public class EnergyResource implements StationResource {
     }
 
     public int getIncrement(Item item) {
-        if (item.equals(Items.COAL_BLOCK))
-            return coalIncrement * 9;
-        return coalIncrement;
+        if (item.equals(Items.COAL_BLOCK) || item.equals(Items.REDSTONE_BLOCK))
+            return baseInc * 9;
+        return baseInc;
     }
 }

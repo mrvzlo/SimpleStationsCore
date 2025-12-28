@@ -46,7 +46,7 @@ public abstract class BaseStationScreen extends AbstractContainerScreen<BaseStat
             return;
         var powerPart = NumToString.parse(station.fuelValue, "RF / ") + NumToString.parse(station.fuelMax, "RF");
         List<Component> powerText = Arrays.asList(
-                Component.translatable("screen.simplestationsmason.power"),
+                Component.translatable("screen.simplestationscore.power"),
                 Component.literal(powerPart));
         gfx.renderComponentTooltip(font, powerText, mouseX, mouseY);
     }

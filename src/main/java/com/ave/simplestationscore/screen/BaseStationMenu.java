@@ -9,7 +9,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -21,12 +20,12 @@ public abstract class BaseStationMenu extends AbstractContainerMenu {
     public final StationContainer blockEntity;
     private final int invSize;
 
-    public BaseStationMenu(int containerId, Inventory inventory, FriendlyByteBuf data, MenuType menu) {
+    public BaseStationMenu(int containerId, Inventory inventory, FriendlyByteBuf data, MenuType<?> menu) {
         this(containerId, inventory,
                 (StationContainer) inventory.player.level().getBlockEntity(data.readBlockPos()), menu);
     }
 
-    public BaseStationMenu(int containerId, Inventory inventory, StationContainer be, MenuType menu) {
+    public BaseStationMenu(int containerId, Inventory inventory, StationContainer be, MenuType<?> menu) {
         super(menu, containerId);
         level = inventory.player.level();
         blockEntity = be;
@@ -49,39 +48,9 @@ public abstract class BaseStationMenu extends AbstractContainerMenu {
     }
 
     protected void addDataSlots(BaseStationBlockEntity station) {
-        addDataSlot(new DataSlot() {
-            @Override
-            public int get() {
-                return (int) station.progress;
-            }
-
-            @Override
-            public void set(int value) {
-                station.progress = value;
-            }
-        });
-        addDataSlot(new DataSlot() {
-            @Override
-            public int get() {
-                return station.working ? 1 : 0;
-            }
-
-            @Override
-            public void set(int value) {
-                station.working = value != 0;
-            }
-        });
-        addDataSlot(new DataSlot() {
-            @Override
-            public int get() {
-                return station.fuelValue;
-            }
-
-            @Override
-            public void set(int value) {
-                station.fuelValue = value;
-            }
-        });
+        addDataSlot(DataSlotHelper.fromInt(() -> (int) station.progress, (x) -> station.progress = x));
+        addDataSlot(DataSlotHelper.fromBool(() -> station.working, (x) -> station.working = x));
+        addDataSlot(DataSlotHelper.fromInt(() -> station.fuelValue, (x) -> station.fuelValue = x));
     }
 
     @Override
