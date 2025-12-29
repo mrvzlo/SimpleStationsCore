@@ -122,7 +122,7 @@ public abstract class BaseStationBlockEntity extends StationContainer {
             res.load(tag);
     }
 
-    private void saveAll(CompoundTag tag) {
+    protected void saveAll(CompoundTag tag) {
         tag.putFloat("progress", progress);
         tag.putInt("type", type);
         for (var res : resources.values())
