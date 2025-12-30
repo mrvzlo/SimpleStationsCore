@@ -1,3 +1,4 @@
 {
-  "screen.simplestationscore.power": "Energy"
+  "screen.simplestationscore.power": "Energy",
+  "itemGroup.simplestationscore": "Simple stations"
 }

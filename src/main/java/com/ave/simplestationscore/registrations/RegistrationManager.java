@@ -3,12 +3,16 @@ package com.ave.simplestationscore.registrations;
 import java.util.Arrays;
 import java.util.function.Function;
 
+import com.ave.simplestationscore.SimpleStationsCore;
 import com.ave.simplestationscore.partblock.PartBlock;
 import com.ave.simplestationscore.partblock.PartBlockEntity;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,12 +25,23 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraft.world.item.Items;
 
 public class RegistrationManager {
         public final DeferredRegister.Blocks BLOCKS;
         public final DeferredRegister.Items ITEMS;
         public final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
         public final DeferredRegister<MenuType<?>> MENUS;
+
+        public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
+                        .create(Registries.CREATIVE_MODE_TAB, SimpleStationsCore.MODID);
+
+        public static final DeferredHolder<CreativeModeTab, CreativeModeTab> CREATIVE_TAB = CREATIVE_MODE_TABS
+                        .register("simple_stations", () -> CreativeModeTab.builder()
+                                        .title(Component.translatable("itemGroup.simplestationscore"))
+                                        .withTabsBefore(CreativeModeTabs.COMBAT)
+                                        .icon(() -> Items.HOPPER.getDefaultInstance())
+                                        .build());
 
         public static Station<PartBlockEntity, PartBlock> PART;
         public static BlockBehaviour.Properties blockProps = BlockBehaviour.Properties.of().strength(0.1F)
@@ -42,6 +57,7 @@ public class RegistrationManager {
         }
 
         public void register(IEventBus bus) {
+                CREATIVE_MODE_TABS.register(bus);
                 BLOCKS.register(bus);
                 ITEMS.register(bus);
                 BLOCK_ENTITIES.register(bus);
