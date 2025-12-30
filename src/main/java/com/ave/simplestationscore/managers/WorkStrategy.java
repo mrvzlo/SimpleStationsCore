@@ -4,8 +4,8 @@ import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
 
 import net.minecraft.sounds.SoundSource;
 
-public class WorkManager {
-    public static boolean getWorkingState(BaseStationBlockEntity station) {
+public class WorkStrategy {
+    public boolean getState(BaseStationBlockEntity station) {
         var slot = station.inventory.getStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT);
         if (station.type == -1)
             return false;
@@ -22,7 +22,7 @@ public class WorkManager {
         return slot.is(product.getItem());
     }
 
-    public static void performWorkTick(BaseStationBlockEntity station) {
+    public void performTick(BaseStationBlockEntity station) {
         station.toProduce = station.getProduct(false);
 
         for (var res : station.resources.values())
@@ -33,7 +33,7 @@ public class WorkManager {
         playSound(station);
     }
 
-    private static void playSound(BaseStationBlockEntity station) {
+    private void playSound(BaseStationBlockEntity station) {
         if (station.soundCooldown > 0) {
             station.soundCooldown--;
             return;
@@ -42,7 +42,7 @@ public class WorkManager {
         station.getLevel().playSound(null, station.getBlockPos(), station.getWorkSound(), SoundSource.BLOCKS);
     }
 
-    public static void performWorkEnd(BaseStationBlockEntity station) {
+    public void performEnd(BaseStationBlockEntity station) {
         for (var res : station.resources.values())
             if (!res.useEveryTick())
                 res.substract();

@@ -9,8 +9,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
-public class ExportManager {
-    public static void pushOutput(BaseStationBlockEntity station) {
+public class ExportStrategy {
+    public void pushOutput(BaseStationBlockEntity station) {
         ItemStack stack = station.inventory.getStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT);
         if (stack.isEmpty())
             return;

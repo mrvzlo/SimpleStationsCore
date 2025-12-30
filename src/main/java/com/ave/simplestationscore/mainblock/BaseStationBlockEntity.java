@@ -3,8 +3,8 @@ package com.ave.simplestationscore.mainblock;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ave.simplestationscore.managers.ExportManager;
-import com.ave.simplestationscore.managers.WorkManager;
+import com.ave.simplestationscore.managers.ExportStrategy;
+import com.ave.simplestationscore.managers.WorkStrategy;
 import com.ave.simplestationscore.resources.EnergyResource;
 import com.ave.simplestationscore.resources.StationResource;
 
@@ -36,6 +36,9 @@ public abstract class BaseStationBlockEntity extends StationContainer {
     public int fuelValue = 0;
     public int fuelMax = 0;
 
+    private WorkStrategy workStrategy = new WorkStrategy();
+    private ExportStrategy exportStrategy = new ExportStrategy();
+
     public BaseStationBlockEntity(BlockEntityType entity, BlockPos pos, BlockState state) {
         super(entity, pos, state);
     }
@@ -54,19 +57,23 @@ public abstract class BaseStationBlockEntity extends StationContainer {
         for (var entry : resources.entrySet())
             checkResource(entry.getKey(), entry.getValue());
 
-        working = WorkManager.getWorkingState(this);
-        ExportManager.pushOutput(this);
+        working = workStrategy.getState(this);
+        exportStrategy.pushOutput(this);
         fuelValue = resources.get(BaseStationBlockEntity.FUEL_SLOT).get();
 
         if (!working)
             return;
 
-        WorkManager.performWorkTick(this);
+        preWorkTick();
+        workStrategy.performTick(this);
 
         if (progress < getMaxProgress())
             return;
 
-        WorkManager.performWorkEnd(this);
+        workStrategy.performEnd(this);
+    }
+
+    protected void preWorkTick() {
     }
 
     private void checkResource(int slot, StationResource resource) {
