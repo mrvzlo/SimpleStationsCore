@@ -80,7 +80,7 @@ public abstract class BaseStationScreen extends AbstractContainerScreen<BaseStat
         int y = getStartY();
         float powerPart = (float) station.fuelValue / station.fuelMax;
         bar.drawProgressToTop(graphics, x, y, powerPart, 0xAABB2211);
-        if (station.fuelValue == 0)
+        if (station.fuelValue == 0 && slot != null)
             slot.drawBorder(graphics, x, y, getWarningColor());
     }
 
