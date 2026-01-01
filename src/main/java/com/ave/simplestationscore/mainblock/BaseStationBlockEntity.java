@@ -28,7 +28,7 @@ public abstract class BaseStationBlockEntity extends StationContainer {
     public float progress = 0;
     public boolean working = false;
 
-    public int speed = 1;
+    public float speed = 1;
     public int soundCooldown = 0;
     protected int particleCooldown = 0;
 
