@@ -15,6 +15,8 @@ public interface StationResource {
 
     void add(int amount);
 
+    void set(int amount);
+
     boolean useEveryTick();
 
     void substract();
@@ -44,5 +46,9 @@ public interface StationResource {
 
     default boolean isEnough() {
         return get() >= getRequired();
+    }
+
+    default float getPercent() {
+        return (float) get() / getMax();
     }
 }

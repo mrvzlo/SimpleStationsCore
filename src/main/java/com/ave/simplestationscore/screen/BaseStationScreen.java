@@ -44,7 +44,8 @@ public abstract class BaseStationScreen extends AbstractContainerScreen<BaseStat
             BaseStationBlockEntity station) {
         if (!bar.isHovered(mouseX - getStartX(), mouseY - getStartY()))
             return;
-        var powerPart = NumToString.parse(station.fuelValue, "RF / ") + NumToString.parse(station.fuelMax, "RF");
+        var powerPart = NumToString.parse(station.getEnergyResource().get(), "RF / ") +
+                NumToString.parse(station.getEnergyResource().getMax(), "RF");
         List<Component> powerText = Arrays.asList(
                 Component.translatable("screen.simplestationscore.power"),
                 Component.literal(powerPart));
@@ -78,9 +79,9 @@ public abstract class BaseStationScreen extends AbstractContainerScreen<BaseStat
     protected void renderPowerBar(GuiGraphics graphics, BaseStationBlockEntity station, Square bar, Square slot) {
         int x = getStartX();
         int y = getStartY();
-        float powerPart = (float) station.fuelValue / station.fuelMax;
+        float powerPart = station.getEnergyResource().getPercent();
         bar.drawProgressToTop(graphics, x, y, powerPart, 0xAABB2211);
-        if (station.fuelValue == 0 && slot != null)
+        if (station.getEnergyResource().get() == 0 && slot != null)
             slot.drawBorder(graphics, x, y, getWarningColor());
     }
 

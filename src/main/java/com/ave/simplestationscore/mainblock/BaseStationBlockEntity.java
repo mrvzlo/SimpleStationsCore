@@ -33,12 +33,11 @@ public abstract class BaseStationBlockEntity extends StationContainer {
     protected int particleCooldown = 0;
 
     public ItemStack toProduce;
-    public int fuelValue = 0;
-    public int fuelMax = 0;
 
     private WorkStrategy workStrategy = new WorkStrategy();
     private ExportStrategy exportStrategy = new ExportStrategy();
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public BaseStationBlockEntity(BlockEntityType entity, BlockPos pos, BlockState state) {
         super(entity, pos, state);
     }
@@ -59,7 +58,6 @@ public abstract class BaseStationBlockEntity extends StationContainer {
 
         working = workStrategy.getState(this);
         exportStrategy.pushOutput(this);
-        fuelValue = resources.get(BaseStationBlockEntity.FUEL_SLOT).get();
 
         if (!working)
             return;
@@ -92,6 +90,10 @@ public abstract class BaseStationBlockEntity extends StationContainer {
         if (resource instanceof EnergyResource energy)
             return energy.storage;
         return null;
+    }
+
+    public StationResource getEnergyResource() {
+        return resources.get(FUEL_SLOT);
     }
 
     public FluidTank getWaterStorage() {

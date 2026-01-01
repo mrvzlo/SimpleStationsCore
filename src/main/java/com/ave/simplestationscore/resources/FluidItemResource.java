@@ -22,11 +22,15 @@ public class FluidItemResource implements StationResource {
     }
 
     public void load(CompoundTag tag) {
-        add(tag.getInt(key));
+        set(tag.getInt(key));
     }
 
     public void save(CompoundTag tag) {
         tag.putInt(key, get());
+    }
+
+    public void set(int value) {
+        stored = value;
     }
 
     public int get() {

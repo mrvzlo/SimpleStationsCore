@@ -50,7 +50,8 @@ public abstract class BaseStationMenu extends AbstractContainerMenu {
     protected void addDataSlots(BaseStationBlockEntity station) {
         addDataSlot(DataSlotHelper.fromInt(() -> (int) station.progress, (x) -> station.progress = x));
         addDataSlot(DataSlotHelper.fromBool(() -> station.working, (x) -> station.working = x));
-        addDataSlot(DataSlotHelper.fromInt(() -> station.fuelValue, (x) -> station.fuelValue = x));
+        addDataSlot(DataSlotHelper.fromInt(() -> station.getEnergyResource().get(),
+                (x) -> station.getEnergyResource().set(x)));
     }
 
     @Override

@@ -21,12 +21,16 @@ public class EnergyResource implements StationResource {
     }
 
     public void load(CompoundTag tag) {
-        storage.extractEnergy(get(), false);
-        add(tag.getInt("fuel"));
+        set(tag.getInt("fuel"));
     }
 
     public void save(CompoundTag tag) {
         tag.putInt("fuel", get());
+    }
+
+    public void set(int amount) {
+        storage.extractEnergy(get(), false);
+        add(amount);
     }
 
     public int get() {

@@ -29,6 +29,10 @@ public class ItemResource implements StationResource {
         return;
     }
 
+    public void set(int amount) {
+        return;
+    }
+
     @Override
     public boolean tryIncrement(ItemStack item) {
         return false;

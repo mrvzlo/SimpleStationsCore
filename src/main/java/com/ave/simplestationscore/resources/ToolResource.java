@@ -42,6 +42,10 @@ public class ToolResource implements StationResource {
         return getSlot().getMaxStackSize();
     }
 
+    public void set(int amount) {
+        return;
+    }
+
     public void add(int amount) {
         getSlot().grow(amount);
     }

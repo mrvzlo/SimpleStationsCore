@@ -50,8 +50,12 @@ public class FluidResource implements StationResource {
     }
 
     public void load(CompoundTag tag) {
+        set(tag.getInt("water"));
+    }
+
+    public void set(int amount) {
         storage.drain(get());
-        add(tag.getInt("water"));
+        add(amount);
     }
 
     public void save(CompoundTag tag) {
