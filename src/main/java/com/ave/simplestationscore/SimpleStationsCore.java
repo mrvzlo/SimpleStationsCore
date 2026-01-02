@@ -1,5 +1,7 @@
 package com.ave.simplestationscore;
 
+import com.ave.simplestationscore.registrations.CoreRegistrations;
+
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
@@ -10,5 +12,6 @@ public class SimpleStationsCore {
         public static final String MODID = "simplestationscore";
 
         public SimpleStationsCore(IEventBus modEventBus, ModContainer modContainer) {
+                CoreRegistrations.register(modEventBus);
         }
 }
