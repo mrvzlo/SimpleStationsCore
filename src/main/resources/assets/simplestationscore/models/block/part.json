@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "simplestationsmason:block/empty",
+    "1": "simplestationsmason:block/empty",
+    "particles": "simplestationsmason:block/empty"
+  },
+  "render_type": "translucent"
+}
