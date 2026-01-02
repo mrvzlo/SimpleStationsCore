@@ -34,8 +34,8 @@ public abstract class BaseStationBlockEntity extends StationContainer {
 
     public ItemStack toProduce;
 
-    private WorkStrategy workStrategy = new WorkStrategy();
-    private ExportStrategy exportStrategy = new ExportStrategy();
+    protected WorkStrategy workStrategy = new WorkStrategy();
+    protected ExportStrategy exportStrategy = new ExportStrategy();
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public BaseStationBlockEntity(BlockEntityType entity, BlockPos pos, BlockState state) {

@@ -8,7 +8,6 @@ import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 public abstract class CommonItemHandler extends ItemStackHandler {
-
     public CommonItemHandler(int size) {
         super(size);
     }
