@@ -1,7 +1,7 @@
 package com.ave.simplestationscore.partblock;
 
 import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
-import com.ave.simplestationscore.registrations.RegistrationManager;
+import com.ave.simplestationscore.registrations.CoreRegistrations;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +23,7 @@ public class PartBlockEntity extends BlockEntity {
     private BlockPos controllerPos;
 
     public PartBlockEntity(BlockPos pos, BlockState state) {
-        super(RegistrationManager.PART.getEntity(), pos, state);
+        super(CoreRegistrations.PART.getEntity(), pos, state);
     }
 
     public void setControllerPos(BlockPos pos) {
@@ -43,7 +43,7 @@ public class PartBlockEntity extends BlockEntity {
     }
 
     public static void registerCaps(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RegistrationManager.PART.getEntity(),
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, CoreRegistrations.PART.getEntity(),
                 (be, direction) -> getItemHandler(direction, be));
     }
 

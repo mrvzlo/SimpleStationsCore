@@ -1,6 +1,8 @@
 package com.ave.simplestationscore.registrations;
 
 import com.ave.simplestationscore.SimpleStationsCore;
+import com.ave.simplestationscore.partblock.PartBlock;
+import com.ave.simplestationscore.partblock.PartBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -13,9 +15,11 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class CoreRegistrations {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SimpleStationsCore.MODID);
+    private static RegistrationManager MANAGER = new RegistrationManager(SimpleStationsCore.MODID);
 
-    public static final DeferredItem<Item> CRATE = ITEMS.registerItem("crate", Item::new, new Item.Properties());
+    public static final DeferredItem<Item> CRATE = MANAGER.registerItem("crate");
+    public static Station<PartBlockEntity, PartBlock> PART = MANAGER.registerEmptyStation("part",
+            (p) -> new PartBlock(p), PartBlockEntity::new);
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister
             .create(Registries.CREATIVE_MODE_TAB, SimpleStationsCore.MODID);
@@ -28,7 +32,7 @@ public class CoreRegistrations {
                     .build());
 
     public static void register(IEventBus bus) {
-        ITEMS.register(bus);
+        MANAGER.register(bus);
         CREATIVE_MODE_TABS.register(bus);
     }
 }

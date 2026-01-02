@@ -3,16 +3,9 @@ package com.ave.simplestationscore.registrations;
 import java.util.Arrays;
 import java.util.function.Function;
 
-import com.ave.simplestationscore.SimpleStationsCore;
-import com.ave.simplestationscore.partblock.PartBlock;
-import com.ave.simplestationscore.partblock.PartBlockEntity;
-
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -32,7 +25,6 @@ public class RegistrationManager {
         public final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
         public final DeferredRegister<MenuType<?>> MENUS;
 
-        public static Station<PartBlockEntity, PartBlock> PART;
         public static BlockBehaviour.Properties blockProps = BlockBehaviour.Properties.of().strength(0.1F)
                         .lightLevel((state) -> 11)
                         .noOcclusion();
@@ -41,7 +33,6 @@ public class RegistrationManager {
                 BLOCKS = DeferredRegister.createBlocks(id);
                 ITEMS = DeferredRegister.createItems(id);
                 BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, id);
-                PART = registerEmptyStation("part", (p) -> new PartBlock(p), PartBlockEntity::new);
                 MENUS = DeferredRegister.create(net.minecraft.core.registries.Registries.MENU, id);
         }
 

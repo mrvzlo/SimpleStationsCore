@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "simplestationsminer:item/crate"
+    "layer0": "simplestationscore:item/crate"
   },
   "render_type": "cutout"
 }
