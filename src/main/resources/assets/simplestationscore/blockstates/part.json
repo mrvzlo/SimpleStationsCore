@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "simplestationsmason:block/part" }
+    "": { "model": "simplestationscore:block/part" }
   }
 }
