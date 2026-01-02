@@ -45,6 +45,10 @@ public class PartBlockEntity extends BlockEntity {
     public static void registerCaps(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, CoreRegistrations.PART.getEntity(),
                 (be, direction) -> getItemHandler(direction, be));
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, CoreRegistrations.PART.getEntity(),
+                (be, direction) -> getWaterStorage(be));
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, CoreRegistrations.PART.getEntity(),
+                (be, direction) -> getEnergyStorage(be));
     }
 
     public static IItemHandler getItemHandler(Direction side, PartBlockEntity be) {

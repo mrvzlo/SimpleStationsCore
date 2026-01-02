@@ -3,6 +3,8 @@ package com.ave.simplestationscore.registrations;
 import java.util.Arrays;
 import java.util.function.Function;
 
+import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -12,6 +14,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -76,5 +80,15 @@ public class RegistrationManager {
         public <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(
                         String name, IContainerFactory<T> factory) {
                 return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
+        }
+
+        public static <T extends BaseStationBlockEntity> void registerCaps(RegisterCapabilitiesEvent event,
+                        BlockEntityType<T> station) {
+                event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, station,
+                                (be, direction) -> be.getItemHandler(direction));
+                event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, station,
+                                (be, direction) -> be.getEnergyStorage());
+                event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, station,
+                                (be, direction) -> be.getWaterStorage());
         }
 }
