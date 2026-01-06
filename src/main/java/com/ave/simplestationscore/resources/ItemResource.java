@@ -6,9 +6,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class ItemResource extends BaseResource implements StationResource {
+public class ItemResource implements StationResource {
     private final CommonItemHandler inventory;
     private final int slot;
+    public int usage;
 
     public ItemResource(CommonItemHandler inventory, int slot, int usage) {
         this.usage = usage;

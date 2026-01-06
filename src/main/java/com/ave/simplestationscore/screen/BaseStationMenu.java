@@ -3,6 +3,7 @@ package com.ave.simplestationscore.screen;
 import com.ave.simplestationscore.handlers.CommonItemHandler;
 import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
 import com.ave.simplestationscore.mainblock.StationContainer;
+import com.ave.simplestationscore.resources.EnergyResource;
 import com.ave.simplestationscore.uihelpers.Square;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -48,12 +49,11 @@ public abstract class BaseStationMenu extends AbstractContainerMenu {
     }
 
     protected void addDataSlots(BaseStationBlockEntity station) {
+        var energyRes = (EnergyResource) station.getEnergyResource();
         addDataSlot(DataSlotHelper.fromInt(() -> (int) station.progress, (x) -> station.progress = x));
         addDataSlot(DataSlotHelper.fromBool(() -> station.working, (x) -> station.working = x));
-        addDataSlot(DataSlotHelper.fromInt(() -> station.getEnergyResource().getLow(),
-                (x) -> station.getEnergyResource().setLow(x)));
-        addDataSlot(DataSlotHelper.fromInt(() -> station.getEnergyResource().getHigh(),
-                (x) -> station.getEnergyResource().setHigh(x)));
+        addDataSlot(DataSlotHelper.fromInt(() -> energyRes.getLow(), (x) -> energyRes.setLow(x)));
+        addDataSlot(DataSlotHelper.fromInt(() -> energyRes.getHigh(), (x) -> energyRes.setHigh(x)));
     }
 
     @Override

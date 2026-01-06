@@ -3,11 +3,12 @@ package com.ave.simplestationscore.resources;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 
-public class FluidItemResource extends BaseResource implements StationResource {
+public class FluidItemResource implements StationResource {
     public int stored;
     public final int max;
     private final int baseInc;
     private final String key;
+    public int usage;
 
     public FluidItemResource(int max, int usage, int inc, String key) {
         this.usage = usage;

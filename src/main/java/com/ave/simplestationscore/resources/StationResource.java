@@ -51,12 +51,4 @@ public interface StationResource {
     default float getPercent() {
         return (float) get() / getMax();
     }
-
-    int getLow();
-
-    int getHigh();
-
-    void setLow(int amount);
-
-    void setHigh(int amount);
 }

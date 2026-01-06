@@ -5,9 +5,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.energy.EnergyStorage;
 
-public class EnergyResource extends BaseResource implements StationResource {
+public class EnergyResource implements StationResource {
     public EnergyStorage storage;
     private final int baseInc;
+    private int lowValue;
+    private int highValue;
+    public int usage;
 
     public EnergyResource(int max, int usage, int inc) {
         this.usage = usage;
@@ -42,10 +45,12 @@ public class EnergyResource extends BaseResource implements StationResource {
 
     public void add(int amount) {
         storage.receiveEnergy(amount, false);
+        recalcParts();
     }
 
     public void substract() {
         storage.extractEnergy(usage, false);
+        recalcParts();
     }
 
     public int getRequired() {
@@ -56,5 +61,26 @@ public class EnergyResource extends BaseResource implements StationResource {
         if (item.equals(Items.COAL_BLOCK) || item.equals(Items.REDSTONE_BLOCK))
             return baseInc * 9;
         return baseInc;
+    }
+
+    public int getLow() {
+        return lowValue;
+    }
+
+    public int getHigh() {
+        return highValue;
+    }
+
+    public void setLow(int amount) {
+        set((lowValue & 0xFFFF) | (highValue << 16));
+    }
+
+    public void setHigh(int amount) {
+        set((lowValue & 0xFFFF) | (highValue << 16));
+    }
+
+    private void recalcParts() {
+        highValue = get() >> 16;
+        lowValue = get() & 0xFFFF;
     }
 }
