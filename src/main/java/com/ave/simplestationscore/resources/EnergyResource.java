@@ -72,10 +72,12 @@ public class EnergyResource implements StationResource {
     }
 
     public void setLow(int amount) {
+        lowValue = amount;
         set((lowValue & 0xFFFF) | (highValue << 16));
     }
 
     public void setHigh(int amount) {
+        highValue = amount;
         set((lowValue & 0xFFFF) | (highValue << 16));
     }
 
