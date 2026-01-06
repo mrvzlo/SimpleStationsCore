@@ -103,6 +103,18 @@ publishing {
         }
     }
 }
+    // Ensure a root-level publishToMavenLocal task exists (helps CI like JitPack)
+    def subPublishTasks = subprojects.collect { p -> p.tasks.findByName('publishToMavenLocal') }.findAll { it != null }
+    if (!project.tasks.findByName('publishToMavenLocal')) {
+        if (subPublishTasks) {
+            tasks.register('publishToMavenLocal') {
+                dependsOn subPublishTasks
+                doLast {
+                    println 'Delegated publishToMavenLocal to subprojects.'
+                }
+            }
+        }
+    }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
