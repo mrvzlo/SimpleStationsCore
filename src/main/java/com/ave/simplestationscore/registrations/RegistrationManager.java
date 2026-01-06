@@ -29,9 +29,8 @@ public class RegistrationManager {
         public final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
         public final DeferredRegister<MenuType<?>> MENUS;
 
-        public static BlockBehaviour.Properties blockProps = BlockBehaviour.Properties.of().strength(0.1F)
-                        .lightLevel((state) -> 11)
-                        .noOcclusion();
+        public static BlockBehaviour.Properties blockProps = BlockBehaviour.Properties.of().strength(3F)
+                        .lightLevel((state) -> 11).requiresCorrectToolForDrops().noOcclusion();
 
         public RegistrationManager(String id) {
                 BLOCKS = DeferredRegister.createBlocks(id);
