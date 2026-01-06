@@ -2,11 +2,10 @@ package com.ave.simplestationscore;
 
 import com.ave.simplestationscore.registrations.CoreRegistrations;
 
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.ModContainer;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.common.Mod;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(SimpleStationsCore.MODID)
 public class SimpleStationsCore {
         public static final String MODID = "simplestationscore";

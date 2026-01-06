@@ -6,6 +6,7 @@ import com.ave.simplestationscore.registrations.CoreRegistrations;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -64,7 +65,9 @@ public abstract class BaseStationBlock extends Block implements EntityBlock {
     public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, InteractionHand hand, BlockHitResult hit) {
         var blockEntity = (BaseStationBlockEntity) level.getBlockEntity(pos);
-        player.openMenu(new SimpleMenuProvider(blockEntity, Component.literal("")), pos);
+        if (!(player instanceof ServerPlayer sp))
+            return ItemInteractionResult.SUCCESS;
+        sp.openMenu(new SimpleMenuProvider(blockEntity, Component.literal("")), pos);
         return ItemInteractionResult.SUCCESS;
     }
 

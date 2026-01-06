@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.SlotItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
 public abstract class BaseStationMenu extends AbstractContainerMenu {
     public final Level level;
@@ -50,8 +50,10 @@ public abstract class BaseStationMenu extends AbstractContainerMenu {
     protected void addDataSlots(BaseStationBlockEntity station) {
         addDataSlot(DataSlotHelper.fromInt(() -> (int) station.progress, (x) -> station.progress = x));
         addDataSlot(DataSlotHelper.fromBool(() -> station.working, (x) -> station.working = x));
-        addDataSlot(DataSlotHelper.fromInt(() -> station.getEnergyResource().get(),
-                (x) -> station.getEnergyResource().set(x)));
+        addDataSlot(DataSlotHelper.fromInt(() -> station.getEnergyResource().getLow(),
+                (x) -> station.getEnergyResource().setLow(x)));
+        addDataSlot(DataSlotHelper.fromInt(() -> station.getEnergyResource().getHigh(),
+                (x) -> station.getEnergyResource().setHigh(x)));
     }
 
     @Override

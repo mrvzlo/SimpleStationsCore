@@ -3,12 +3,14 @@ package com.ave.simplestationscore.mainblock;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.ave.simplestationscore.handlers.SidedItemHandler;
 import com.ave.simplestationscore.managers.ExportStrategy;
 import com.ave.simplestationscore.managers.WorkStrategy;
 import com.ave.simplestationscore.resources.EnergyResource;
 import com.ave.simplestationscore.resources.StationResource;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -16,8 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class BaseStationBlockEntity extends StationContainer {
     public static final int FUEL_SLOT = 0;
@@ -158,4 +165,21 @@ public abstract class BaseStationBlockEntity extends StationContainer {
     public abstract ItemStack getProduct(boolean check);
 
     protected abstract int getCurrentType();
+
+    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> this.getEnergyStorage());
+    private final LazyOptional<IFluidHandler> fluid = LazyOptional.of(() -> this.getWaterStorage());
+    private final LazyOptional<IItemHandler> sidedItemHandler = LazyOptional.of(() -> new SidedItemHandler(inventory));
+    private final LazyOptional<IItemHandler> inventoryHandler = LazyOptional.of(() -> inventory);
+
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (cap == ForgeCapabilities.ENERGY)
+            return energy.cast();
+        if (cap == ForgeCapabilities.FLUID_HANDLER)
+            return fluid.cast();
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
+            return side == null ? inventoryHandler.cast() : sidedItemHandler.cast();
+
+        return super.getCapability(cap, side);
+    }
 }

@@ -3,7 +3,7 @@ package com.ave.simplestationscore.handlers;
 import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 public class SidedItemHandler implements IItemHandler {
     private final CommonItemHandler parent;

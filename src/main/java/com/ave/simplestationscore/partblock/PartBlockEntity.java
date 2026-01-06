@@ -12,13 +12,20 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.energy.IEnergyStorage;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.IItemHandler;
 
 public class PartBlockEntity extends BlockEntity {
+    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() -> getEnergyStorage(this));
+    private final LazyOptional<IFluidHandler> fluid = LazyOptional.of(() -> getWaterStorage(this));
+    private final LazyOptional<IItemHandler> sidedItemHandler = LazyOptional
+            .of(() -> getItemHandler(Direction.DOWN, this));
+    private final LazyOptional<IItemHandler> inventoryHandler = LazyOptional.of(() -> getItemHandler(null, this));
 
     private BlockPos controllerPos;
 
@@ -42,13 +49,16 @@ public class PartBlockEntity extends BlockEntity {
         return controllerPos;
     }
 
-    public static void registerCaps(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, CoreRegistrations.PART.getEntity(),
-                (be, direction) -> getItemHandler(direction, be));
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, CoreRegistrations.PART.getEntity(),
-                (be, direction) -> getWaterStorage(be));
-        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, CoreRegistrations.PART.getEntity(),
-                (be, direction) -> getEnergyStorage(be));
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (cap == ForgeCapabilities.ENERGY)
+            return energy.cast();
+        if (cap == ForgeCapabilities.FLUID_HANDLER)
+            return fluid.cast();
+        if (cap == ForgeCapabilities.ITEM_HANDLER)
+            return side == null ? inventoryHandler.cast() : sidedItemHandler.cast();
+
+        return super.getCapability(cap, side);
     }
 
     public static IItemHandler getItemHandler(Direction side, PartBlockEntity be) {

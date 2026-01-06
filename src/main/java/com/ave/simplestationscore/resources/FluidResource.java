@@ -8,9 +8,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-public class FluidResource implements StationResource {
+public class FluidResource extends BaseResource implements StationResource {
     public BaseTank storage;
-    private int usage;
 
     public FluidResource(Fluid fluid, int max, int usage) {
         this.usage = usage;

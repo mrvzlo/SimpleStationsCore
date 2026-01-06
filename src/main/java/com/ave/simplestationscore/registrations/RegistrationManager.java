@@ -3,8 +3,6 @@ package com.ave.simplestationscore.registrations;
 import java.util.Arrays;
 import java.util.function.Function;
 
-import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -13,19 +11,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.network.IContainerFactory;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.network.IContainerFactory;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class RegistrationManager {
-        public final DeferredRegister.Blocks BLOCKS;
-        public final DeferredRegister.Items ITEMS;
+        public final DeferredRegister<Block> BLOCKS;
+        public final DeferredRegister<Item> ITEMS;
         public final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES;
         public final DeferredRegister<MenuType<?>> MENUS;
 
@@ -33,8 +28,8 @@ public class RegistrationManager {
                         .lightLevel((state) -> 11).requiresCorrectToolForDrops().noOcclusion();
 
         public RegistrationManager(String id) {
-                BLOCKS = DeferredRegister.createBlocks(id);
-                ITEMS = DeferredRegister.createItems(id);
+                BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, id);
+                ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, id);
                 BLOCK_ENTITIES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, id);
                 MENUS = DeferredRegister.create(net.minecraft.core.registries.Registries.MENU, id);
         }
@@ -59,35 +54,25 @@ public class RegistrationManager {
         }
 
         @SuppressWarnings("unchecked")
-        public DeferredItem<Item>[] registerEmptyItems(String prefix, String[] list) {
-                return Arrays.stream(list).map(x -> registerItem(prefix + x)).toArray(DeferredItem[]::new);
+        public RegistryObject<Item>[] registerEmptyItems(String prefix, String[] list) {
+                return Arrays.stream(list).map(x -> registerItem(prefix + x)).toArray(RegistryObject[]::new);
         }
 
         @SuppressWarnings("unchecked")
-        public DeferredBlock<Block>[] registerEmptyBlocks(String prefix, String[] list) {
-                return Arrays.stream(list).map(x -> registerBlock(prefix + x)).toArray(DeferredBlock[]::new);
+        public RegistryObject<Block>[] registerEmptyBlocks(String prefix, String[] list) {
+                return Arrays.stream(list).map(x -> registerBlock(prefix + x)).toArray(RegistryObject[]::new);
         }
 
-        public DeferredItem<Item> registerItem(String name) {
-                return ITEMS.registerItem(name, Item::new, new Item.Properties());
+        public RegistryObject<Item> registerItem(String name) {
+                return ITEMS.register(name, () -> new Item(new Item.Properties()));
         }
 
-        public DeferredBlock<Block> registerBlock(String name) {
+        public RegistryObject<Block> registerBlock(String name) {
                 return BLOCKS.register(name, () -> new Block(BlockBehaviour.Properties.of()));
         }
 
-        public <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(
+        public <T extends AbstractContainerMenu> RegistryObject<MenuType<T>> registerMenuType(
                         String name, IContainerFactory<T> factory) {
-                return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
-        }
-
-        public static <T extends BaseStationBlockEntity> void registerCaps(RegisterCapabilitiesEvent event,
-                        BlockEntityType<T> station) {
-                event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, station,
-                                (be, direction) -> be.getItemHandler(direction));
-                event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, station,
-                                (be, direction) -> be.getEnergyStorage());
-                event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, station,
-                                (be, direction) -> be.getWaterStorage());
+                return MENUS.register(name, () -> IForgeMenuType.create(factory));
         }
 }

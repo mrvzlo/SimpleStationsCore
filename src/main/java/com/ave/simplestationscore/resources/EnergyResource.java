@@ -3,11 +3,10 @@ package com.ave.simplestationscore.resources;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.energy.EnergyStorage;
+import net.minecraftforge.energy.EnergyStorage;
 
-public class EnergyResource implements StationResource {
+public class EnergyResource extends BaseResource implements StationResource {
     public EnergyStorage storage;
-    public int usage;
     private final int baseInc;
 
     public EnergyResource(int max, int usage, int inc) {

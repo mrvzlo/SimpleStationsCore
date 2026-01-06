@@ -5,7 +5,7 @@ import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 public abstract class CommonItemHandler extends ItemStackHandler {
     public CommonItemHandler(int size) {

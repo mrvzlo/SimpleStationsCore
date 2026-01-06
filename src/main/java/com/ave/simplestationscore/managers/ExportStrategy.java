@@ -2,12 +2,11 @@ package com.ave.simplestationscore.managers;
 
 import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class ExportStrategy {
     public void pushOutput(BaseStationBlockEntity station) {
@@ -15,7 +14,7 @@ public class ExportStrategy {
         if (stack.isEmpty())
             return;
 
-        BlockPos belowPos = station.getBlockPos().below();
+        var belowPos = station.getBlockPos().below();
         IItemHandler handler = null;
 
         for (int dz = -1; dz <= 1; dz++)
@@ -23,14 +22,18 @@ public class ExportStrategy {
                 if (handler != null)
                     break;
                 var pos = belowPos.offset(dx, 0, dz);
-                handler = Capabilities.ItemHandler.BLOCK.getCapability(station.getLevel(), pos, null, null,
-                        Direction.UP);
+                var be = station.getLevel().getBlockEntity(pos);
+                if (be == null)
+                    continue;
+                var cap = be.getCapability(ForgeCapabilities.ITEM_HANDLER, Direction.UP);
+                if (cap.isPresent())
+                    handler = cap.orElse(null);
             }
 
         if (handler == null)
             return;
 
-        ItemStack remaining = ItemHandlerHelper.insertItem(handler, stack, false);
+        var remaining = ItemHandlerHelper.insertItem(handler, stack, false);
         station.inventory.setStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT, remaining);
     }
 }

@@ -3,10 +3,9 @@ package com.ave.simplestationscore.resources;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 
-public class FluidItemResource implements StationResource {
+public class FluidItemResource extends BaseResource implements StationResource {
     public int stored;
     public final int max;
-    private int usage;
     private final int baseInc;
     private final String key;
 
