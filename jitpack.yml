@@ -1,2 +1,3 @@
 install:
-  - ./gradlew -p core publishToMavenLocal
+  - chmod +x ./gradlew || true
+  - bash ./gradlew -p core publishToMavenLocal
