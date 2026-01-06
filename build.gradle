@@ -91,6 +91,9 @@ tasks.named('jar', Jar).configure {
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
+            groupId = project.group
+            artifactId = project.base.archivesName.get()
+            version = project.version
             artifact jar
         }
     }
