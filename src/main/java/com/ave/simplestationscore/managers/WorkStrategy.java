@@ -23,6 +23,8 @@ public class WorkStrategy {
     }
 
     public void performTick(BaseStationBlockEntity station) {
+        if (!station.working)
+            return;
         station.toProduce = station.getProduct(false);
 
         for (var res : station.resources.values())
