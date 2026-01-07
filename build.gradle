@@ -138,7 +138,9 @@ neoForge.ideSyncTask generateModMetadata
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            from components.java
+            groupId = project.group
+            version = project.version
+            artifact jar
         }
     }
     repositories {
