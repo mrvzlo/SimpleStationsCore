@@ -5,7 +5,6 @@ import com.ave.simplestationscore.registrations.CoreRegistrations;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -18,12 +17,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -62,13 +60,13 @@ public abstract class BaseStationBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
-            Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+            BlockHitResult hit) {
         var blockEntity = (BaseStationBlockEntity) level.getBlockEntity(pos);
         if (!(player instanceof ServerPlayer sp))
-            return ItemInteractionResult.SUCCESS;
-        sp.openMenu(new SimpleMenuProvider(blockEntity, Component.literal("")), pos);
-        return ItemInteractionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
+        NetworkHooks.openScreen(sp, blockEntity, pos);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -102,11 +100,6 @@ public abstract class BaseStationBlock extends Block implements EntityBlock {
                 var be = (PartBlockEntity) level.getBlockEntity(p);
                 be.setControllerPos(pos);
             }
-    }
-
-    @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

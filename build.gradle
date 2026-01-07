@@ -12,10 +12,10 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
-    reobf = false
+    reobf = true
     copyIdeResources = true
     runs {
         configureEach {
@@ -49,10 +49,6 @@ repositories {
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
     }
 }
 
