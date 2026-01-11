@@ -18,7 +18,7 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
 
-public class PartBlockEntity extends BlockEntity {
+public class PartBlockEntity extends BlockEntity implements PartialEntity {
 
     private BlockPos controllerPos;
 
@@ -75,7 +75,10 @@ public class PartBlockEntity extends BlockEntity {
     public BaseStationBlockEntity getController() {
         if (controllerPos == null)
             return null;
-        return ((BaseStationBlockEntity) getLevel().getBlockEntity(controllerPos));
+        var be = getLevel().getBlockEntity(controllerPos);
+        if (be == null || !(be instanceof BaseStationBlockEntity))
+            return null;
+        return (BaseStationBlockEntity) be;
     }
 
     public boolean isEdge() {

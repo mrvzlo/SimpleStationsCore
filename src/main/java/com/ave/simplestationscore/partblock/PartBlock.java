@@ -35,7 +35,7 @@ public class PartBlock extends Block implements EntityBlock {
             return ItemInteractionResult.SUCCESS;
 
         BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof PartBlockEntity part))
+        if (!(be instanceof PartialEntity part))
             return ItemInteractionResult.SUCCESS;
 
         BlockPos ctrlPos = part.getControllerPos();
@@ -48,10 +48,12 @@ public class PartBlock extends Block implements EntityBlock {
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         BlockEntity be = level.getBlockEntity(pos);
-        if (!(be instanceof PartBlockEntity part))
+        if (!(be instanceof PartialEntity part))
             return state;
 
-        BlockPos controllerPos = part.getControllerPos();
+        var controllerPos = part.getControllerPos();
+        if (controllerPos == null)
+            return state;
         level.destroyBlock(controllerPos, !player.isCreative());
         return state;
     }

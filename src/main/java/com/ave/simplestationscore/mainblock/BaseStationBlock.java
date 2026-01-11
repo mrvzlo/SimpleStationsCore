@@ -1,6 +1,6 @@
 package com.ave.simplestationscore.mainblock;
 
-import com.ave.simplestationscore.partblock.PartBlockEntity;
+import com.ave.simplestationscore.partblock.PartialEntity;
 import com.ave.simplestationscore.registrations.CoreRegistrations;
 
 import net.minecraft.core.BlockPos;
@@ -96,7 +96,7 @@ public abstract class BaseStationBlock extends Block implements EntityBlock {
                 var block = CoreRegistrations.PART.getBlock().defaultBlockState();
                 level.setBlock(p, block, 3);
 
-                var be = (PartBlockEntity) level.getBlockEntity(p);
+                var be = (PartialEntity) level.getBlockEntity(p);
                 be.setControllerPos(pos);
             }
     }
@@ -125,7 +125,7 @@ public abstract class BaseStationBlock extends Block implements EntityBlock {
                     continue;
 
                 var be = level.getBlockEntity(p);
-                if (be instanceof PartBlockEntity)
+                if (be instanceof PartialEntity)
                     level.destroyBlock(p, false);
             }
     }

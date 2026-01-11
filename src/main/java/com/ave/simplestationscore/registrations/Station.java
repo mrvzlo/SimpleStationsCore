@@ -37,6 +37,6 @@ public class Station<BE extends BlockEntity, B extends Block> {
     }
 
     public BlockItem getItem() {
-        return item.get();
+        return item == null ? null : item.get();
     }
 }
