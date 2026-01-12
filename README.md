@@ -1,1 +1,2 @@
-[![](https://jitpack.io/v/mrvzlo/SimpleStationsCore.svg)](https://jitpack.io/#mrvzlo/SimpleStationsCore)
+Dont publish anywhere just 
+./gradlew publishToMavenLocal
