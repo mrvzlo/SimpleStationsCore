@@ -1,4 +1,13 @@
 {
   "screen.simplestationscore.power": "Energy",
-  "itemGroup.simplestationscore": "Simple stations"
+  "itemGroup.simplestationscore": "Simple stations",
+
+  "simplestationscore.configuration.title": "Configs",
+  "simplestationscore.configuration.consume": "RF consume per tick",
+  "simplestationscore.configuration.fluid_max": "Fluid capacity",
+  "simplestationscore.configuration.fluid_max.tooltip": "Maximum amount of water/lava to store.\nDefault: 10000 mB",
+  "simplestationscore.configuration.power_max": "Power capacity",
+  "simplestationscore.configuration.power_max.tooltip": "Maximum stored RF power.\nDefault: 24000",
+  "simplestationscore.configuration.power_coal": "RF from coal",
+  "simplestationscore.configuration.power_coal.tooltip": "Base RF amount received from 1 coal\n Default: 48000"
 }

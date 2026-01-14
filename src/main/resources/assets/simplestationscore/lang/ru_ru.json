@@ -1,4 +1,14 @@
 {
   "screen.simplestationscore.power": "Энергия",
-  "itemGroup.simplestationscore": "Простые станции"
+  "itemGroup.simplestationscore": "Простые станции",
+
+  "simplestationscore.configuration.title": "Настройки",
+  "simplestationscore.configuration.fluid_max": "Fluid capacity",
+  "simplestationscore.configuration.fluid_max.tooltip": "Maximum amount of water/lava to store.\nDefault: 10000 mB",
+  "simplestationscore.configuration.water_max": "Ёмкость бака воды",
+  "simplestationscore.configuration.water_max.tooltip": "Максимальный объём воды, который может хранить машина.\nПо умолчанию: 10000 mB",
+  "simplestationscore.configuration.power_coal": "Энергия от угля",
+  "simplestationscore.configuration.power_coal.tooltip": "Количество энергии, добавляемое одним углём\n Default: 48000",
+  "simplestationscore.configuration.power_max": "Ёмкость энергии",
+  "simplestationscore.configuration.power_max.tooltip": "Максимальный запас энергии\nDefault: 24000"
 }
