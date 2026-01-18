@@ -10,6 +10,8 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class ExportStrategy {
+    public int range;
+
     public void pushOutput(BaseStationBlockEntity station) {
         ItemStack stack = station.inventory.getStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT);
         if (stack.isEmpty())
@@ -18,8 +20,8 @@ public class ExportStrategy {
         BlockPos belowPos = station.getBlockPos().below();
         IItemHandler handler = null;
 
-        for (int dz = -1; dz <= 1; dz++)
-            for (int dx = -1; dx <= 1; dx++) {
+        for (int dz = -range; dz <= range; dz++)
+            for (int dx = -range; dx <= range; dx++) {
                 if (handler != null)
                     break;
                 var pos = belowPos.offset(dx, 0, dz);

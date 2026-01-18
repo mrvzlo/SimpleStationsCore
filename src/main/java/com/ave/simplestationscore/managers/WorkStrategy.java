@@ -40,6 +40,8 @@ public class WorkStrategy {
             station.soundCooldown--;
             return;
         }
+        if (station.getWorkSound() == null)
+            return;
         station.soundCooldown += 20;
         station.getLevel().playSound(null, station.getBlockPos(), station.getWorkSound(), SoundSource.BLOCKS);
     }
