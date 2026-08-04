@@ -5,13 +5,12 @@ import com.ave.simplestationscore.mainblock.BaseStationBlockEntity;
 import net.minecraft.sounds.SoundSource;
 
 public class WorkStrategy {
+    public int baseSoundCooldown = 20;
+
     public boolean getState(BaseStationBlockEntity station) {
         var slot = station.inventory.getStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT);
-        if (station.type == -1)
+        if (station.type == -1 || !canSubstractAll(station))
             return false;
-        for (var res : station.resources.values())
-            if (!res.isEnough())
-                return false;
 
         if (slot.getCount() == 0)
             return true;
@@ -42,19 +41,29 @@ public class WorkStrategy {
         }
         if (station.getWorkSound() == null)
             return;
-        station.soundCooldown += 20;
+        station.soundCooldown += baseSoundCooldown;
         station.getLevel().playSound(null, station.getBlockPos(), station.getWorkSound(), SoundSource.BLOCKS);
     }
 
     public void performEnd(BaseStationBlockEntity station) {
-        for (var res : station.resources.values())
-            if (!res.useEveryTick())
-                res.substract();
-
+        substractAll(station);
         var toAdd = station.toProduce.copy();
         var slot = station.inventory.getStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT);
         toAdd.grow(slot.getCount());
         station.inventory.setStackInSlot(BaseStationBlockEntity.OUTPUT_SLOT, toAdd);
         station.setChanged();
+    }
+
+    protected boolean canSubstractAll(BaseStationBlockEntity station) {
+        for (var res : station.resources.values())
+            if (!res.isEnough())
+                return false;
+        return true;
+    }
+
+    protected void substractAll(BaseStationBlockEntity station) {
+        for (var res : station.resources.values())
+            if (!res.useEveryTick())
+                res.substract();
     }
 }

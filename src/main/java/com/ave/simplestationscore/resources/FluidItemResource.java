@@ -6,7 +6,7 @@ import net.minecraft.world.item.Item;
 public class FluidItemResource implements StationResource {
     public int stored;
     public final int max;
-    private int usage;
+    public int usage;
     private final int baseInc;
     private final String key;
 
